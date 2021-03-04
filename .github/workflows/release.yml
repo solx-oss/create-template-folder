@@ -1,0 +1,55 @@
+name: Release 🚀
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    name: 🏃‍♂️ Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: 💸 node_modules
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: 🏗️ Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: 🏃‍♂️ Install Deps
+        run: yarn install --frozen-lockfile
+      - name: 🛠️🧪 Build and test
+        run: yarn test:ci
+      - name: 📦  ZIP Coverage and Build
+        run: |
+          zip -r coverage.zip ./coverage
+          zip -r build.zip ./dist
+      - name: 🚚 🧪 Upload Test Coverage
+        uses: actions/upload-artifact@v1
+        with:
+          name: code-coverage
+          path: coverage
+      - name: 🚚 🛠️ Upload Build Coverage
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: coverage
+      - name: 🆙Load Coverage Reports
+        run: npx codecov
+        env:
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+      - name: 📦 Release to NPM
+        run: yarn semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
