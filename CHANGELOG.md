@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/solx-oss/create-template-folder/compare/v1.0.0...v1.0.1) (2021-03-04)
+
+
+### Bug Fixes
+
+* **files:** didnt send all the files to npm ([#1](https://github.com/solx-oss/create-template-folder/issues/1)) ([392a5d3](https://github.com/solx-oss/create-template-folder/commit/392a5d3101e47c30ebe72cbe76e2c9c5bceef762))
+
 # 1.0.0 (2021-03-04)
 
 
