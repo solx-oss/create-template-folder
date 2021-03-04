@@ -1,6 +1,6 @@
 {
   "name": "create-template-folder",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "Template Directory Writer",
   "repository": "solx-oss/create-template-folder",
   "main": "dist/index.js",
