@@ -36,7 +36,7 @@ main()
 #### Typescript support
 ```ts
 import { copyTemplate } from 'create-template-folder'
-improt * as path from 'path'
+import * as path from 'path'
 
 async function main() {
    try {
@@ -70,8 +70,11 @@ interface ICopyDir {
 }
 ```
 **inDir**: Folder you are trying to copy
+
 **ouDir**: Path to where the new folder should be copied to
+
 **vars**: List of variables that the package should be looking into in order to override with your custom values
+
 **number**: Number of "curly braces" the package should look into: `{{hello}}` vs `{{{hello}}}` for example
 
 
