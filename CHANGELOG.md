@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/solx-oss/create-template-folder/compare/v1.0.1...v1.0.2) (2021-03-08)
+
+
+### Bug Fixes
+
+* **fix docs:** fix documentation (lack of docs at all) and example ([#2](https://github.com/solx-oss/create-template-folder/issues/2)) ([37d965c](https://github.com/solx-oss/create-template-folder/commit/37d965c4a716bfd9690e1f53a1fb773301de691a))
+
 ## [1.0.1](https://github.com/solx-oss/create-template-folder/compare/v1.0.0...v1.0.1) (2021-03-04)
 
 
