@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 
 import { join, sep } from "path";
-import { fsEncoding } from "../consts";
+import { fsEncoding, otherRed } from "../consts";
 import { contentReplacer } from "./contentReplacer";
 
 export async function createFileWithReplacer({
@@ -22,11 +22,15 @@ export async function createFileWithReplacer({
   const path = join(outDir, fileName);
   const realPath = contentReplacer(path, vars, number);
   const content = contentReplacer(fileContents, vars, number);
-  // try {
-  await fs.writeFile(realPath, content, fsEncoding);
-  return fileName;
-  // } catch (error) {
-  //   console.log("error:", error);
-  //   throw new Error(error);
-  // }
+  try {
+    await fs.writeFile(realPath, content, fsEncoding);
+    return fileName;
+  } catch (error) {
+    /* istanbul ignore next */
+    throw new Error(
+      otherRed(
+        `Something unexpected has happened. Please check the console for more data. ${error.message}`
+      )
+    );
+  }
 }
