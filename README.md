@@ -8,6 +8,7 @@ npm install create-template-folder
 yarn add create-template-folder
 ```
 
+
 ## Usage
 ```js
 const { copyTemplate } = require("create-template-folder")
