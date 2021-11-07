@@ -1,4 +1,5 @@
 import glob from "glob";
+import { sep } from "path";
 
 type GetAllType = {
   base: string;
@@ -14,7 +15,10 @@ export async function getAllFiles(
       // if (err) {
       //   rej(err);
       // }
-      const fileStruct = files.map((e) => [e, e.split(base).slice(-1)[0]]);
+      const fileStruct = files.map((e) => [
+        e,
+        e.split(`${base}${sep}`).slice(-1)[0],
+      ]);
 
       res(fileStruct as [string, string][]);
     });
