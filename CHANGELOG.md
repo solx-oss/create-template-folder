@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/solx-oss/create-template-folder/compare/v1.0.2...v1.1.0) (2021-11-07)
+
+
+### Features
+
+* **underscore support:** add underscore support on the file naming ([#5](https://github.com/solx-oss/create-template-folder/issues/5)) ([6692624](https://github.com/solx-oss/create-template-folder/commit/6692624304f677d8271a49bdc03f4f0175a2dc1b))
+
 ## [1.0.2](https://github.com/solx-oss/create-template-folder/compare/v1.0.1...v1.0.2) (2021-03-08)
 
 
