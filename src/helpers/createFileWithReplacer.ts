@@ -18,7 +18,9 @@ export async function createFileWithReplacer({
   number: number;
 }) {
   const fileContents = await fs.readFile(prevPath, fsEncoding);
-  const fileName = file.replace(new RegExp(`^${sep}*`, "gi"), "");
+  const fileName = file
+    .replace(new RegExp(`^${sep}*`, "gi"), "")
+    .replace(/_(?=\.)/, "");
   const path = join(outDir, fileName);
   const realPath = contentReplacer(path, vars, number);
   const content = contentReplacer(fileContents, vars, number);

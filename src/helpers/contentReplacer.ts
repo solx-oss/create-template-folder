@@ -19,6 +19,7 @@ export function contentReplacer(
     .join("|");
 
   const regex = new RegExp(regBase, "g");
+
   return str.replace(regex, (matched: any) => {
     const insideBrackets = /[^{\}]+(?=})/g.exec(matched)!;
     return vars[insideBrackets[0].trim()];
