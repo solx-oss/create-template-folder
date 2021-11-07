@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/solx-oss/create-template-folder/compare/v1.1.1...v1.1.2) (2021-11-07)
+
+
+### Bug Fixes
+
+* **remove index file running immediately":** delete unnecesasry function call in index.ts ([90e0be3](https://github.com/solx-oss/create-template-folder/commit/90e0be343518c18822340e8d2c1511556d9672c3))
+
 ## [1.1.1](https://github.com/solx-oss/create-template-folder/compare/v1.1.0...v1.1.1) (2021-11-07)
 
 
