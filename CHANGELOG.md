@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/solx-oss/create-template-folder/compare/v1.1.0...v1.1.1) (2021-11-07)
+
+
+### Bug Fixes
+
+* **same-file-same-folder:** fix an issue with naming ([b3199b6](https://github.com/solx-oss/create-template-folder/commit/b3199b65faf30a420f384c816f90a5bffc7bb6f8)), closes [#6](https://github.com/solx-oss/create-template-folder/issues/6)
+
 # [1.1.0](https://github.com/solx-oss/create-template-folder/compare/v1.0.2...v1.1.0) (2021-11-07)
 
 
