@@ -1,5 +1,5 @@
 import { CreateFile, CreateFolder } from "./service";
-import { Executor, GetAllType, ICopyDir } from "./types";
+import { Executor, GetAllType, ICreateTemplate } from "./types";
 import { GetAllFiles, GetAllFolders, SplitSepRepo } from "./utils/IO";
 
 interface ICreateTemplateFolder {
@@ -51,7 +51,7 @@ export class CreateTemplateFolder implements Executor {
     return this.getAllFoldersRepo.execute(options);
   }
 
-  async execute({ inDir, outDir, vars = {}, number = 2 }: ICopyDir) {
+  async execute({ inDir, outDir, vars = {}, number = 2 }: ICreateTemplate) {
     const [baseName] = this.splitRepo.execute(inDir).slice(-1);
     const folders = await this.getAllFoldersRepo.execute({
       base: baseName,
