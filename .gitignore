@@ -116,3 +116,6 @@ dist
 .pnp.*
 
 template
+templates
+trash
+.DS_Store

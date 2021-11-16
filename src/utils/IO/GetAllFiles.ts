@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 import glob from "glob";
 import { Executor, GetAllType } from "../../types";
+import { sep } from "path";
 
 export class GetAllFiles implements Executor {
   execute({ dir, base }: GetAllType): Promise<[string, string][]> {
@@ -10,7 +11,10 @@ export class GetAllFiles implements Executor {
           return rej(_err);
         }
 
-        const fileStruct = files.map((e) => [e, e.split(base).slice(-1)[0]]);
+        const fileStruct = files.map((e) => [
+          e,
+          e.split(new RegExp(`${base}${sep}`)).slice(-1)[0],
+        ]);
 
         res(fileStruct as [string, string][]);
       });
