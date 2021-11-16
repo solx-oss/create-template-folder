@@ -39,7 +39,6 @@ main()
 import { copyTemplate } from 'create-template-folder'
 import * as path from 'path'
 
-
 async function main() {
    try {
       const files = await copyTemplate({
