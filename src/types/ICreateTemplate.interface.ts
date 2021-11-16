@@ -6,7 +6,7 @@
  * @param {Record<string, string>} vars Vars should hold the objects that will map over the files and folders and change the templates with your own provided values
  * @param {number} number This value corresponds to the number of curly brackets used on the templates. It should **never** be below 2. Advisable to use below it in case of possible naming conflicts in templating languages
  */
-export interface ICopyDir {
+export interface ICreateTemplate {
   /**
    * The path of the `directory` or `file` you want to copy
    */
@@ -38,15 +38,4 @@ export interface ICopyDir {
    *
    */
   number?: number;
-}
-
-/**
- * IDryRun defines wether this package will do the io-operations. By default it will be set to fault but it is good for testing purposes as well. Or to, at least, not copy files and folders while testing your scripts
- * @typedef {object} IDryRun
- * @param {boolean} dryRun Set's value for the dryRun property
- * @default {dryRun: false}
-
- */
-export interface IDryRun {
-  dryRun?: boolean;
 }

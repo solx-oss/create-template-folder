@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import fsExtra from "fs-extra";
+import fs from "fs";
 import { SinonStub, stub } from "sinon";
 import { CreateTemplateConfig } from "../../config";
 import { CreateFolder } from "../../service";
@@ -11,7 +11,7 @@ describe(`CreateFolder`, () => {
 
   describe("Without spies", () => {
     beforeEach(() => {
-      mkdirStub = stub(fsExtra, "mkdirp");
+      mkdirStub = stub(fs, "mkdirSync");
     });
 
     afterEach(() => {
@@ -31,7 +31,7 @@ describe(`CreateFolder`, () => {
   });
   describe("With spies", () => {
     beforeEach(() => {
-      mkdirStub = stub(fsExtra, "mkdirp");
+      mkdirStub = stub(fs, "mkdirSync");
     });
 
     afterEach(() => {

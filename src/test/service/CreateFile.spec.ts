@@ -1,17 +1,14 @@
 import { expect } from "chai";
-// @ts-ignore
 import fs from "fs";
 import { describe } from "mocha";
 import { join } from "path";
 import sinon, { SinonStub } from "sinon";
-import { CreateTemplateConfig } from "../../config";
 import { encoding } from "../../consts";
 import { CreateFile } from "../../service";
 import { JoinRepo, ReadFileRepo, WriteFileRepo } from "../../utils/IO";
 
 const outDir = "outDir";
 describe(`CreateFile`, () => {
-  let config: CreateTemplateConfig;
   let joinRepo: JoinRepo;
   let readFileRepo: ReadFileRepo;
   let writeFileRepo: WriteFileRepo;
@@ -24,7 +21,6 @@ describe(`CreateFile`, () => {
   let readFile: SinonStub;
 
   beforeEach(() => {
-    config = new CreateTemplateConfig(true);
     joinRepo = new JoinRepo();
     readFileRepo = new ReadFileRepo();
     writeFileRepo = new WriteFileRepo();
@@ -55,7 +51,6 @@ describe(`CreateFile`, () => {
         joinRepo,
         readFileRepo: new ReadFileRepo(readFile as typeof fs.readFileSync),
         writeFileRepo,
-        config,
       });
       // @ts-ignore
       const execution = await createFileCommand.execute({
@@ -99,7 +94,6 @@ describe(`CreateFile`, () => {
         joinRepo,
         readFileRepo,
         writeFileRepo,
-        config: new CreateTemplateConfig(false),
       });
       const execution = await createFileCommand.execute({
         vars: {},
@@ -140,7 +134,6 @@ describe(`CreateFile`, () => {
           readFileRepo: readRepo,
           writeFileRepo: writeFile,
           // writeFileRepo: writeRepo,
-          config: new CreateTemplateConfig(false),
         });
 
         const execution = await createFileCommand.execute({

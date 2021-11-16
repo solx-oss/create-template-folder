@@ -2,16 +2,16 @@ import { createTemplateFolderConfig } from "./config";
 import { otherRed } from "./consts";
 import { CreateTemplateFolder } from "./CreateTemplateFolder";
 import { ObjectErrorValidator, StringErrorValidator } from "./service";
-import { ICopyDir, IDryRun } from "./types";
+import { ICreateTemplate, IDryRun } from "./types";
 
 /**
  *
  * @returns Promise<string>
- * @param {ICopyDir} options ICopyDir encapsulates one of the ways of approaching the copyDir function
+ * @param {ICreateTemplate} options ICopyDir encapsulates one of the ways of approaching the copyDir function
  * @param {IDryRun} dryRunOption ICopyDir encapsulates one of the ways of approaching the copyDir function
  */
 export async function createTemplateFolder(
-  options: ICopyDir,
+  options: ICreateTemplate,
   dryRunOption?: IDryRun
 ): Promise<string[]>;
 /**
@@ -29,7 +29,7 @@ export async function createTemplateFolder(
   dryRunOption?: IDryRun
 ): Promise<string[]>;
 export async function createTemplateFolder(
-  value: ICopyDir | string,
+  value: ICreateTemplate | string,
   outDir?: IDryRun | string,
   vars: Record<string, string> = {},
   number = 2,

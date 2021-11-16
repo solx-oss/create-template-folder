@@ -6,17 +6,19 @@
 npm install create-template-folder
 # OR
 yarn add create-template-folder
+# OR
+pnpm add create-template-folder
 ```
 
 
 ## Usage
 ```js
-const { copyTemplate } = require("create-template-folder")
+const { createTemplateFolder } = require("create-template-folder")
 const path = require("path")
 
 async function main() {
    try {
-      const files = await copyTemplate({
+      const files = await createTemplateFolder({
          inDir: path.join(__dirname, "template"),
          outDir: path.join(__dirname, "..", "outFolder"),
          vars: {
@@ -36,12 +38,12 @@ main()
 
 #### Typescript support
 ```ts
-import { copyTemplate } from 'create-template-folder'
+import { createTemplateFolder } from 'create-template-folder'
 import * as path from 'path'
 
 async function main() {
    try {
-      const files = await copyTemplate({
+      const files = await createTemplateFolder({
          inDir: path.join(__dirname, "template"),
          outDir: path.join(__dirname, "..", "outFolder"),
          vars: {
@@ -60,10 +62,10 @@ main()
 ```
 
 ### Interfacing with api
-#### copyTemplate(ICopyDir)
+#### copyTemplate(ICreateTemplate)
 
 ```ts
-interface ICopyDir {
+interface ICreateTemplate {
   inDir: string;
   outDir: string;
   vars: Record<string, string>; // defaults to {}
@@ -79,9 +81,9 @@ interface ICopyDir {
 **number**: Number of "curly braces" the package should look into: `{{hello}}` vs `{{{hello}}}` for example
 
 
-#### copyTemplate(inDir, outDir, vars, number)
+#### createTemplateFolder(inDir, outDir, vars, number)
 ```ts
-copyTemplate(inDir: string, outDir: string, vars?: Record<string, string>,  number?: number) {}
+createTemplateFolder(inDir: string, outDir: string, vars?: Record<string, string>,  number?: number) {}
 ```
 
 Same api structure as before, just without sending an object and passing positional arguments

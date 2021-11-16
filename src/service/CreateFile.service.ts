@@ -1,4 +1,3 @@
-import { CreateTemplateConfig } from "../config";
 import { otherRed } from "../consts";
 import { Content } from "../utils";
 import {
@@ -17,7 +16,6 @@ interface Execute {
 }
 
 interface ICreateFile {
-  config?: CreateTemplateConfig;
   readFileRepo?: ReadFileRepo;
   makeFileNameRepo?: MakeFileNameRepo;
   writeFileRepo?: WriteFileRepo;
@@ -27,14 +25,11 @@ interface ICreateFile {
 export class CreateFile {
   public readFileRepo: ReadFileRepo;
   public makeFileNameRepo: MakeFileNameRepo;
-  public config: CreateTemplateConfig;
   public joinRepo: JoinRepo;
   public writeFileRepo: WriteFileRepo;
   /* istanbul ignore next */
   constructor(args: ICreateFile = {}) {
     const {
-      /* istanbul ignore next */
-      config = new CreateTemplateConfig(),
       /* istanbul ignore next */
       readFileRepo = new ReadFileRepo(),
       /* istanbul ignore next */
@@ -45,7 +40,6 @@ export class CreateFile {
       writeFileRepo = new WriteFileRepo(),
     } = args;
     this.readFileRepo = readFileRepo;
-    this.config = config;
     this.makeFileNameRepo = makeFileNameRepo;
     this.joinRepo = joinRepo;
     this.writeFileRepo = writeFileRepo;
@@ -66,9 +60,7 @@ export class CreateFile {
     const content = Content.replace(fileContents, vars, number);
 
     try {
-      if (!this.config.dryRun) {
-        await this.writeFileRepo.execute(realPath, content);
-      }
+      await this.writeFileRepo.execute(realPath, content);
       return fileName;
     } catch (error) {
       /* istanbul ignore next */

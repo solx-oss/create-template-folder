@@ -41,7 +41,7 @@ export class CreateFolder implements Executor, ICreateFolder {
     const realPaths = Content.replace(path, vars, number);
 
     if (!this.config.dryRun) {
-      return this.mkdirRepo.execute(realPaths);
+      this.mkdirRepo.execute(realPaths);
     }
   }
 }

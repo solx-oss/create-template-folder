@@ -4,13 +4,13 @@ import {
   noSuchThing,
   notEnoughCurlies,
 } from "../consts";
-import { Executor, ICopyDir } from "../types";
+import { Executor, ICreateTemplate } from "../types";
 import { FSExistsRepo } from "../utils/IO";
 
 export class ObjectErrorValidator implements Executor {
   /* istanbul ignore next */
   constructor(private fsExistRepo: FSExistsRepo = new FSExistsRepo()) {}
-  execute(value: ICopyDir): BoolStr {
+  execute(value: ICreateTemplate): BoolStr {
     if (this.noInDir(value.inDir)) {
       return noSuchThing;
     }
