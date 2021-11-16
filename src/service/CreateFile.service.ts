@@ -7,7 +7,6 @@ import {
   ReadFileRepo,
   WriteFileRepo,
 } from "../utils/IO";
-// import { Io } from "src/utils/io-operations";
 
 interface Execute {
   file: string;
@@ -52,40 +51,6 @@ export class CreateFile {
     this.writeFileRepo = writeFileRepo;
   }
 
-  // @ts-ignore
-  static async createFileReplacer({
-    file,
-    outDir,
-    prevPath,
-    vars,
-    number,
-  }: Execute) {
-    const t = new CreateFile();
-    const fileContents = t.readFileRepo.execute(prevPath);
-    const fileName = t.makeFileNameRepo.execute(file);
-
-    const path = t.joinRepo.execute(outDir, fileName);
-    const realPath = Content.replace(path, vars, number);
-    const content = Content.replace(fileContents, vars, number);
-
-    try {
-      if (!t.config.dryRun) {
-        await t.writeFile(realPath, content);
-      }
-      return fileName;
-    } catch (error) {
-      throw new Error(
-        otherRed(
-          `Something unexpected has happened. Please check the console for more data. ${error.message}`
-        )
-      );
-    }
-  }
-
-  writeFile(realPath: string, content: string) {
-    return this.writeFileRepo.execute(realPath, content);
-  }
-
   async execute({
     prevPath,
     vars,
@@ -93,56 +58,25 @@ export class CreateFile {
     file,
     number,
   }: Execute): Promise<string> {
-    const t = new CreateFile();
-    const fileContents = t.readFileRepo.execute(prevPath);
-    const fileName = t.makeFileNameRepo.execute(file);
+    const fileContents = this.readFileRepo.execute(prevPath);
+    const fileName = this.makeFileNameRepo.execute(file);
 
-    const path = t.joinRepo.execute(outDir, fileName);
+    const path = this.joinRepo.execute(outDir, fileName);
     const realPath = Content.replace(path, vars, number);
     const content = Content.replace(fileContents, vars, number);
 
     try {
-      if (!t.config.dryRun) {
-        await t.writeFile(realPath, content);
+      if (!this.config.dryRun) {
+        await this.writeFileRepo.execute(realPath, content);
       }
       return fileName;
     } catch (error) {
+      /* istanbul ignore next */
       throw new Error(
         otherRed(
           `Something unexpected has happened. Please check the console for more data. ${error.message}`
         )
       );
     }
-    // try {
-    //   const fileContents = this.readFileRepo.execute(options.prevPath);
-
-    //   const fileName = this.makeFileNameRepo.execute(options.file);
-
-    //   const path = this.joinRepo.execute(options.outDir, options.file);
-
-    //   // @ts-ignore
-    //   const realPath = Content.replace(path, options.vars, options.number);
-    //   // @ts-ignore
-    //   const content = Content.replace(
-    //     fileContents,
-    //     options.vars,
-    //     options.number
-    //   );
-
-    //   if (!this.config.dryRun) {
-    //     await this.writeFileRepo.execute(realPath, content);
-    //   }
-
-    //   return fileName;
-    //   /* istanbul ignore next */
-    // } catch (error) {
-    //   /* istanbul ignore next */
-    //   throw new Error(
-    //     otherRed(
-    //       `Something unexpected has happened. Please check the console for more data.
-    //       ${error.message}`
-    //     )
-    //   );
-    // }
   }
 }

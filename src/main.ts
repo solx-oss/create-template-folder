@@ -1,6 +1,5 @@
 import { createTemplateFolderConfig } from "./config";
 import { otherRed } from "./consts";
-// @ts-ignore
 import { CreateTemplateFolder } from "./CreateTemplateFolder";
 import { ObjectErrorValidator, StringErrorValidator } from "./service";
 import { ICopyDir, IDryRun } from "./types";

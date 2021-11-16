@@ -4,54 +4,60 @@ import fs from "fs";
 import { describe } from "mocha";
 import { join } from "path";
 import sinon, { SinonStub } from "sinon";
-import { CreateFile } from "../../service";
 import { CreateTemplateConfig } from "../../config";
+import { encoding } from "../../consts";
+import { CreateFile } from "../../service";
 import { JoinRepo, ReadFileRepo, WriteFileRepo } from "../../utils/IO";
 
+const outDir = "outDir";
 describe(`CreateFile`, () => {
   let config: CreateTemplateConfig;
   let joinRepo: JoinRepo;
   let readFileRepo: ReadFileRepo;
   let writeFileRepo: WriteFileRepo;
-  const outDir = "outDir";
   const file = "file.txt";
   const content = `content`;
   const prevPath = "here/there";
   let joinSpy: SinonStub;
   let readFileSpy: SinonStub;
   let writeFileSpy: SinonStub;
+  let readFile: SinonStub;
 
   beforeEach(() => {
     config = new CreateTemplateConfig(true);
     joinRepo = new JoinRepo();
     readFileRepo = new ReadFileRepo();
     writeFileRepo = new WriteFileRepo();
-    content;
   });
 
   describe(`Config is Dry Run`, () => {
     beforeEach(() => {
       joinSpy = sinon.stub(joinRepo, "execute").returns(`${outDir}/${file}`);
-      readFileSpy = sinon.stub(readFileRepo, "execute").resolves(content);
+      readFileSpy = sinon.stub(readFileRepo, "execute").returns(content);
       writeFileSpy = sinon.stub(writeFileRepo, "execute");
+      readFile = sinon.stub(fs, "readFileSync").returns(`${outDir}/${file}`);
     });
 
     afterEach(() => {
       joinSpy.restore();
       readFileSpy.restore();
       writeFileSpy.restore();
+      readFileSpy?.restore?.();
+      readFile.restore();
     });
 
     after(() => {
       readFileSpy?.restore?.();
     });
+
     it(`Performs all, but the copy`, async () => {
       const createFileCommand = new CreateFile({
         joinRepo,
-        readFileRepo,
+        readFileRepo: new ReadFileRepo(readFile as typeof fs.readFileSync),
         writeFileRepo,
         config,
       });
+      // @ts-ignore
       const execution = await createFileCommand.execute({
         vars: {},
         file,
@@ -59,10 +65,14 @@ describe(`CreateFile`, () => {
         outDir,
         prevPath,
       });
-      expect(joinSpy.getCall(0).args).to.deep.equal([outDir, file]);
-      expect(joinSpy.callCount).to.eq(1);
-      expect(readFileSpy.callCount).to.eq(1);
-      expect(writeFileSpy.callCount).to.eq(0);
+      const { args } = readFile.getCall(0);
+      expect(args[0]).to.eql(prevPath);
+      expect(args[1]).to.deep.equal(encoding);
+      expect(readFile.called).to.be.true;
+      // expect(joinSpy.getCall(0).args).to.deep.equal([outDir, file]);
+      // expect(joinSpy.callCount).to.eq(1);
+      // expect(readFileSpy.callCount).to.eq(1);
+      // expect(w/riteFileSpy.callCount).to.eq(0);
       expect(execution).to.be.string;
     });
   });
@@ -70,7 +80,7 @@ describe(`CreateFile`, () => {
   describe(`Config when Dry Run Off`, () => {
     beforeEach(() => {
       joinSpy = sinon.stub(joinRepo, "execute").returns(`${outDir}/${file}`);
-      readFileSpy = sinon.stub(readFileRepo, "execute").resolves(content);
+      readFileSpy = sinon.stub(readFileRepo, "execute").returns(content);
       writeFileSpy = sinon.stub(writeFileRepo, "execute");
     });
 

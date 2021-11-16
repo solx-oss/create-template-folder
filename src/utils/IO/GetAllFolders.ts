@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import glob from "glob";
 import { Executor, GetAllType } from "../../types";
 
