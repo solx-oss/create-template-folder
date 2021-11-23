@@ -7,7 +7,7 @@ export class GetAllFiles implements Executor {
   constructor(private seperator: typeof sep = sep) {}
 
   get sep() {
-    return this.seperator === "/" ? this.seperator : "\\";
+    return this.seperator === "/" ? this.seperator : "\\\\";
   }
 
   execute({ dir, base }: GetAllType): Promise<[string, string][]> {
