@@ -7,3 +7,4 @@ export * from "./FsExists";
 export * from "./SplitOnSeperator";
 export * from "./GetAllFolders";
 export * from "./GetAllFiles";
+export * from "./FsOperationRepo";

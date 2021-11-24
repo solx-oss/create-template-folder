@@ -6,7 +6,7 @@ import { join } from "path";
   // @ts-ignore
   const data = await createTemplateFolder(
     {
-      inDir: join(__dirname, "..", "templates", "fullstack", "auth"),
+      inDir: join(__dirname, "..", "template", "fullstack", "auth"),
       outDir: join(__dirname, "..", "trash"),
       vars: { andre: "project-name" },
     },

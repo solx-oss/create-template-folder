@@ -32,6 +32,7 @@ export class ObjectErrorValidator implements Executor {
   }
 
   noInDir(inDir: string) {
+    console.log("inDir:", inDir);
     return !this.fsExistRepo.execute(inDir);
   }
 

@@ -1,6 +1,11 @@
 import { CreateFile, CreateFolder } from "./service";
-import { Executor, GetAllType, ICreateTemplate } from "./types";
-import { GetAllFiles, GetAllFolders, SplitSepRepo } from "./utils/IO";
+import { Executor, ICreateTemplate, IFsOperations } from "./types";
+import {
+  FsOperations,
+  GetAllFiles,
+  GetAllFolders,
+  SplitSepRepo,
+} from "./utils/IO";
 
 interface ICreateTemplateFolder {
   splitRepo?: SplitSepRepo;
@@ -8,6 +13,7 @@ interface ICreateTemplateFolder {
   getAllFoldersRepo?: GetAllFolders;
   createFolderRepo?: CreateFolder;
   createFileRepo?: CreateFile;
+  fsOpsRepo?: IFsOperations;
 }
 export class CreateTemplateFolder implements Executor {
   splitRepo: SplitSepRepo;
@@ -15,6 +21,8 @@ export class CreateTemplateFolder implements Executor {
   getAllFoldersRepo: GetAllFolders;
   createFolderRepo: CreateFolder;
   createFileRepo: CreateFile;
+  fsOpsRepo: IFsOperations;
+
   constructor(args: ICreateTemplateFolder = {}) {
     const {
       splitRepo = new SplitSepRepo(),
@@ -22,12 +30,14 @@ export class CreateTemplateFolder implements Executor {
       getAllFoldersRepo = new GetAllFolders(),
       createFolderRepo = new CreateFolder(),
       createFileRepo = new CreateFile(),
+      fsOpsRepo = new FsOperations(),
     } = args;
     this.splitRepo = splitRepo;
     this.getFilesRepo = getFilesRepo;
     this.getAllFoldersRepo = getAllFoldersRepo;
     this.createFolderRepo = createFolderRepo;
     this.createFileRepo = createFileRepo;
+    this.fsOpsRepo = fsOpsRepo;
   }
 
   async createFolders(
@@ -39,16 +49,8 @@ export class CreateTemplateFolder implements Executor {
     return this.createFolderRepo.execute(outDir, relPath, vars, number);
   }
 
-  getAllFiles(options: GetAllType) {
-    return this.getFilesRepo.execute(options);
-  }
-
   splitOnSeperator(inDir: string) {
     return this.splitRepo.execute(inDir).slice(-1);
-  }
-
-  getAllFolders(options: GetAllType): Promise<string[]> {
-    return this.getAllFoldersRepo.execute(options);
   }
 
   async execute({ inDir, outDir, vars = {}, number = 2 }: ICreateTemplate) {
