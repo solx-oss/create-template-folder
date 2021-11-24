@@ -1,77 +1,48 @@
-import { CreateFile, CreateFolder } from "./service";
-import { Executor, ICreateTemplate, IFsOperations } from "./types";
-import {
-  FsOperations,
-  GetAllFiles,
-  GetAllFolders,
-  SplitSepRepo,
-} from "./utils/IO";
+import { CreateService } from "./service";
+import { GetAllService } from "./service/GetAllService.service";
+import { Executor, ICreateRepo, ICreateTemplate, IFsOperations } from "./types";
+import { IPathRepo } from "./types/PathRepo.interface";
+import { FsOperations, PathRepo } from "./utils/IO";
 
 interface ICreateTemplateFolder {
-  splitRepo?: SplitSepRepo;
-  getFilesRepo?: GetAllFiles;
-  getAllFoldersRepo?: GetAllFolders;
-  createFolderRepo?: CreateFolder;
-  createFileRepo?: CreateFile;
   fsOpsRepo?: IFsOperations;
+  getAllService?: GetAllService;
+  pathRepo?: IPathRepo;
+  createRepo?: ICreateRepo;
 }
 export class CreateTemplateFolder implements Executor {
-  splitRepo: SplitSepRepo;
-  getFilesRepo: GetAllFiles;
-  getAllFoldersRepo: GetAllFolders;
-  createFolderRepo: CreateFolder;
-  createFileRepo: CreateFile;
   fsOpsRepo: IFsOperations;
+  getAllService: GetAllService;
+  pathRepo: IPathRepo;
+  createRepo: ICreateRepo;
 
   constructor(args: ICreateTemplateFolder = {}) {
     const {
-      splitRepo = new SplitSepRepo(),
-      getFilesRepo = new GetAllFiles(),
-      getAllFoldersRepo = new GetAllFolders(),
-      createFolderRepo = new CreateFolder(),
-      createFileRepo = new CreateFile(),
       fsOpsRepo = new FsOperations(),
+      getAllService = new GetAllService(),
+      pathRepo = new PathRepo(),
+      createRepo = new CreateService(),
     } = args;
-    this.splitRepo = splitRepo;
-    this.getFilesRepo = getFilesRepo;
-    this.getAllFoldersRepo = getAllFoldersRepo;
-    this.createFolderRepo = createFolderRepo;
-    this.createFileRepo = createFileRepo;
     this.fsOpsRepo = fsOpsRepo;
-  }
-
-  async createFolders(
-    outDir: string,
-    relPath: string,
-    vars: Record<string, string> = {},
-    number = 2
-  ): Promise<void | string> {
-    return this.createFolderRepo.execute(outDir, relPath, vars, number);
-  }
-
-  splitOnSeperator(inDir: string) {
-    return this.splitRepo.execute(inDir).slice(-1);
+    this.getAllService = getAllService;
+    this.pathRepo = pathRepo;
+    this.createRepo = createRepo;
   }
 
   async execute({ inDir, outDir, vars = {}, number = 2 }: ICreateTemplate) {
-    const [baseName] = this.splitRepo.execute(inDir).slice(-1);
-    const folders = await this.getAllFoldersRepo.execute({
-      base: baseName,
-      dir: inDir,
-    });
+    const [baseName] = inDir.split(this.pathRepo.sep).slice(-1);
+
+    const folders = await this.getAllService.folders(inDir, baseName);
 
     await Promise.all(
-      folders.map((e) => this.createFolderRepo.execute(outDir, e, vars, number))
+      folders.map((e) => this.createRepo.folder(outDir, e, vars, number))
     );
 
-    const files = await this.getFilesRepo.execute({
-      base: baseName,
-      dir: inDir,
-    });
+    const files = await this.getAllService.files(inDir, baseName);
 
     const fileNames = await Promise.all(
       files.map(([rel, file]) =>
-        this.createFileRepo.execute({
+        this.createRepo.file({
           file,
           outDir,
           vars,

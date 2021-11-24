@@ -54,7 +54,7 @@ export class CreateFile {
   }: Execute): Promise<string> {
     const fileContents = this.readFileRepo.execute(prevPath);
     const fileName = this.makeFileNameRepo.execute(file);
-    console.log("fileName:", fileName);
+    // console.log("fileName:", fileName);
 
     const path = this.joinRepo.execute(outDir, fileName);
     const realPath = Content.replace(path, vars, number);

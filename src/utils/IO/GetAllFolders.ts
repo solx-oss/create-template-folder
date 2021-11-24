@@ -7,6 +7,7 @@ export class GetAllFolders implements Executor {
     const { base, dir } = options;
     return new Promise((res, _rej) => {
       glob(`${dir}/**/`, {}, (_err, folders) => {
+        console.log("folders:", folders);
         // if (err) {
         //   rej(err);
         // }
